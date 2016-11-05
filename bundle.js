@@ -21513,18 +21513,38 @@
 		function ContactsList() {
 			_classCallCheck(this, ContactsList);
 
-			return _possibleConstructorReturn(this, (ContactsList.__proto__ || Object.getPrototypeOf(ContactsList)).apply(this, arguments));
+			var _this = _possibleConstructorReturn(this, (ContactsList.__proto__ || Object.getPrototypeOf(ContactsList)).call(this));
+
+			_this.state = {
+				search: ''
+			};
+			return _this;
 		}
 
 		_createClass(ContactsList, [{
+			key: 'updateSearch',
+			value: function updateSearch(e) {
+				this.setState({ search: e.target.value });
+			}
+		}, {
 			key: 'render',
 			value: function render() {
+				var _this2 = this;
+
+				var filteredContacts = this.props.contacts.filter(function (contact) {
+					return contact.name.toLowerCase().indexOf(_this2.state.search) !== -1;
+				});
 				return _react2.default.createElement(
-					'ul',
+					'div',
 					null,
-					this.props.contacts.map(function (contact) {
-						return _react2.default.createElement(_Contact2.default, { contact: contact, key: contact.id });
-					})
+					_react2.default.createElement(
+						'ul',
+						null,
+						filteredContacts.map(function (contact) {
+							return _react2.default.createElement(_Contact2.default, { contact: contact, key: contact.id });
+						})
+					),
+					_react2.default.createElement('input', { type: 'text', value: this.state.search, onChange: this.updateSearch.bind(this) })
 				);
 			}
 		}]);
